@@ -1,0 +1,64 @@
+name: Publish bottles
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'Formula/*.rb'
+  pull_request:
+    paths:
+      - 'Formula/*.rb'
+
+jobs:
+  build-bottles:
+    strategy:
+      matrix:
+        include:
+          - os: macos-13  # Intel
+          - os: macos-14  # Apple Silicon
+          - os: ubuntu-22.04
+    runs-on: ${{ matrix.os }}
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Build bottles
+        run: |
+          brew tap nicolaric/tap https://github.com/nicolaric/homebrew-tap
+          brew install --build-bottle nicolaric/tap/minicode
+          brew bottle --json nicolaric/tap/minicode
+
+      - name: Upload bottles
+        uses: actions/upload-artifact@v4
+        with:
+          name: bottles-${{ matrix.os }}
+          path: '*.bottle.*'
+
+  publish:
+    needs: build-bottles
+    runs-on: ubuntu-latest
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    steps:
+      - name: Set up Homebrew
+        uses: Homebrew/actions/setup-homebrew@master
+
+      - name: Download bottles
+        uses: actions/download-artifact@v4
+        with:
+          path: bottles
+          pattern: bottles-*
+          merge-multiple: true
+
+      - name: Upload bottles to GitHub Releases
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          cd bottles
+          for bottle in *.bottle.tar.gz; do
+            echo "Uploading $bottle"
+            # Extract version from bottle name
+            version=$(echo $bottle | grep -o '[0-9]\+\.[0-9]\+\.[0-9]\+' | head -1)
+            if [ -n "$version" ]; then
+              gh release upload "v$version" "$bottle" --clobber || true
+            fi
+          done
