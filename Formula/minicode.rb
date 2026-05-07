@@ -39,8 +39,11 @@ class Minicode < Formula
     # Test that the binary exists and is executable
     assert_predicate bin/"minicode", :exist?
     assert_predicate bin/"minicode", :executable?
-    
+
     # Test version output if available
     # system "#{bin}/minicode", "--version"
+
+    # Basic help test
+    # system "#{bin}/minicode", "--help"
   end
 end
