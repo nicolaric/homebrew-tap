@@ -1,8 +1,8 @@
 class Minicode < Formula
   desc "Minimal local coding agent with terminal UI and Ollama integration"
   homepage "https://github.com/nicolaric/minicode"
-  url "https://github.com/nicolaric/minicode/archive/refs/tags/v0.1.3.tar.gz"
-  sha256 "fa0e0882100b3d50cd828e8fd4627e9cca26aa8c52d526164cc48ae37a093e5d"
+  url "https://github.com/nicolaric/minicode/archive/refs/tags/v0.1.4.tar.gz"
+  sha256 "b5cea8c75e01a3d84562aa6a439d7a1d56aac04f1b089155c69c7eb4ee386108"
   license "MIT"
 
   depends_on "zig" => :build
