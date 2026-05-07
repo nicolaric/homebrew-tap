@@ -49,6 +49,12 @@ jobs:
           pattern: bottles-*
           merge-multiple: true
 
+      - name: Extract bottles
+        run: |
+          cd bottles
+          unzip -o '*.zip' || true
+          ls -la
+
       - name: Upload bottles to GitHub Releases
         env:
           GH_TOKEN: ${{ github.token }}
