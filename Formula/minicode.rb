@@ -46,4 +46,5 @@ class Minicode < Formula
     # Basic help test
     # system "#{bin}/minicode", "--help"
   end
+
 end
