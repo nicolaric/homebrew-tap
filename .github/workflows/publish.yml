@@ -14,13 +14,13 @@ jobs:
     strategy:
       matrix:
         include:
-          - os: macos-13  # Intel
+          # - os: macos-13  # Intel - temporarily disabled (runner timeout issues)
           - os: macos-14  # Apple Silicon
           - os: ubuntu-22.04
     runs-on: ${{ matrix.os }}
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Build bottles
         run: |
@@ -40,7 +40,7 @@ jobs:
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     steps:
       - name: Set up Homebrew
-        uses: Homebrew/actions/setup-homebrew@master
+        uses: Homebrew/actions/setup-homebrew@main
 
       - name: Download bottles
         uses: actions/download-artifact@v4
