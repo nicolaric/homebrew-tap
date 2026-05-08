@@ -5,6 +5,11 @@ class Minicode < Formula
   sha256 "b5cea8c75e01a3d84562aa6a439d7a1d56aac04f1b089155c69c7eb4ee386108"
   license "MIT"
 
+  bottle do
+    sha256 cellar: :any_skip_relocation, arm64_sonoma: "e2cedc3ba9d486d7bea2663f398af5ffbd5b97e1ce91e5d5fdaaac21fc020d52"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "0f088e99cdbb74244056da0bc91e87af4c7c55ce31c7cd5a4b78842be46b1ce4"
+  end
+
   depends_on "zig" => :build
   depends_on "curl"
   depends_on "ollama" => :optional
