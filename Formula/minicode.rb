@@ -48,3 +48,4 @@ class Minicode < Formula
   end
 
 end
+
